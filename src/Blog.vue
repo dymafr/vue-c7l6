@@ -1,26 +1,45 @@
 <template>
-  <h2>Un titre d'article</h2>
-  <button @click="emit('bigger', 2)">+</button>
-  <button @click="emit('smaller')">-</button>
-  <p :style="{ fontSize: props.fontSize + 'px' }">
-    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-    Lorem Ipsum has been the industry's standard dummy text ever since the
-    1500s, when an unknown printer took a galley of type and scrambled it to
-    make a type specimen book. It has survived not only five centuries, but also
-    the leap into electronic typesetting, remaining essentially unchanged. It
-    was popularised in the 1960s with the release of Letraset sheets containing
-    Lorem Ipsum passages, and more recently with desktop publishing software
-    like Aldus PageMaker including versions of Lorem Ipsum.
-  </p>
+  <h1>Blog</h1>
+  <button @click="count++">+1</button>
+  <p>{{ count }}</p>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ fontSize: Number }>();
+import {
+  onBeforeMount,
+  onBeforeUnmount,
+  onBeforeUpdate,
+  onMounted,
+  onUnmounted,
+  onUpdated,
+  ref,
+} from 'vue';
 
-const emit = defineEmits<{
-  (e: 'bigger', inc: number): void;
-  (e: 'smaller'): void;
-}>();
+const count = ref(0);
+
+const intervalId = setInterval(() => {
+  console.log('tick');
+}, 1000);
+
+onBeforeMount(() => {
+  console.log('Avant le montage');
+});
+onMounted(() => {
+  console.log('Après le montage');
+});
+onBeforeUpdate(() => {
+  console.log('Avant la mise à jour');
+});
+onUpdated(() => {
+  console.log('Après la mise à jour');
+});
+onBeforeUnmount(() => {
+  console.log('Avant la destruction / démontage');
+});
+onUnmounted(() => {
+  clearInterval(intervalId);
+  console.log('Démontage');
+});
 </script>
 
 <style scoped lang="scss"></style>
